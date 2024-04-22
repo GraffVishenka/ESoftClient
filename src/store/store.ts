@@ -65,6 +65,18 @@ export default class Store {
     }
   }
 
+  async deleteTasks(id: number) {
+    this.setLoading(true);
+    try {
+      const res = await TaskService.deleteTaskById(id);
+      this.setTasks(res.data);
+    } catch (e: any) {
+      console.log(e.response?.data?.message);
+    } finally {
+      this.setLoading(false);
+    }
+  }
+
   async updateTasks(id: number, task: object) {
     this.setLoading(true);
     try {
