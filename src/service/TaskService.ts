@@ -19,7 +19,7 @@ export default class TaskService {
     return await $api.patch(`/tasks/${id}`, task);
   }
 
-  static async deleteTaskById(id: number, ): Promise<AxiosResponse<ITasks[]>> {
-    return await $api.patch(`/tasks/${id}`);
+  static async deleteTaskById(id: number): Promise<AxiosResponse<ITasks[]>> {
+    return await $api.delete(`/tasks/${id}`);
   }
 }
