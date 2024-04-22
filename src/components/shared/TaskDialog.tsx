@@ -60,6 +60,10 @@ const TaskDialog: React.FC<Props> = ({ task, users }: Props) => {
     } catch (error) {}
   };
 
+  const deleteClick = async () => {
+    await store.deleteTasks(task.id)
+  };
+
   if (store.isLoading) {
     return <Loader />;
   }
@@ -175,7 +179,7 @@ const TaskDialog: React.FC<Props> = ({ task, users }: Props) => {
           <Button  className="shad-button_primary" onClick={saveClick}>
             Сохранить
           </Button>
-          <Button  className="shad-button_primary">Удалить</Button>
+          <Button  className="shad-button_primary" onClick={deleteClick}>Удалить</Button>
         </div>
       </DialogContent>
     </Dialog>
