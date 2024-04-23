@@ -11,8 +11,8 @@ export default class TaskService {
     return await $api.post("/tasks", task);
   }
 
-  static async fetchTaskById(id: number): Promise<AxiosResponse<ITasks[]>> {
-    return await $api.post("/tasks/findOne", { id });
+  static async fetchTaskById(id: number): Promise<AxiosResponse> {
+    return await $api.get(`/tasks/findOne/${id}`,);
   }
 
   static async updateTaskById(id: number, task:object): Promise<AxiosResponse<ITasks[]>> {

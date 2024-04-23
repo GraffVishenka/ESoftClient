@@ -1,7 +1,7 @@
 import { makeAutoObservable } from "mobx";
 import { ITasks, IUser } from "../lib/types";
 import AuthService from "../service/AuthService";
-import { $api, API_URL } from "../lib/api";
+import { $api } from "../lib/api";
 import TaskService from "../service/TaskService";
 import UserService from "../service/UserService";
 import { toast } from "sonner";
@@ -51,6 +51,15 @@ export default class Store {
     } finally {
       this.setLoading(false);
     }
+  }
+
+  async fetchTasksById(id: number) {;
+    try {
+      const res = await TaskService.fetchTaskById(id);
+      return res.data
+    } catch (e: any) {
+      console.log(e.response?.data?.message);
+    } 
   }
 
   async createTasks(task: object) {
@@ -126,7 +135,7 @@ export default class Store {
   async checkAuth() {
     this.setLoading(true);
     try {
-      const res = await $api.get(`${API_URL}/auth/check`, {
+      const res = await $api.get(`/auth/check`, {
         withCredentials: true,
       });
       this.setAuth(true);
