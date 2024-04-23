@@ -21,7 +21,6 @@ import { Toaster } from "sonner";
 
 const SignInForm = () => {
   const { store } = useContext(Context);
-  const isLoading = false;
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof SigninValidation>>({
@@ -98,7 +97,7 @@ const SignInForm = () => {
           />
 
           <Button type="submit" className="shad-button_primary mt-3 ">
-            {isLoading ? (
+            {store.isLoading ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...
               </div>

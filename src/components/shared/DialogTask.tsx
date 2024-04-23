@@ -41,7 +41,12 @@ const DialogTask: React.FC<Props> = ({ type, task }: Props) => {
 
   const fetchTaskClick = (task: ITasks | undefined) => {
     if (task !== Empty || task !== undefined) {
-      setState({ ...task!, deadline: dateConverter(task?.deadline!) });
+      setState({
+        ...state,
+        ...task!,
+        deadline: dateConverter(task?.deadline!),
+        responsible: task?.responsible.id,
+      });
     }
   };
 
@@ -101,18 +106,24 @@ const DialogTask: React.FC<Props> = ({ type, task }: Props) => {
             value={state.header}
             type="input"
             onChange={(e) => setState({ ...state, header: e.target.value })}
+            taskCreatorRole={task?.creator.role}
+            userRole={store.user.role}
           />
         </DialogHeader>
         <DialogTextarea
           name="Описание"
           value={state.description}
           onChange={(e) => setState({ ...state, description: e.target.value })}
+          taskCreatorRole={task?.creator.role}
+          userRole={store.user.role}
         />
         <DialogInput
           name="Дата окончания"
           type="date"
           value={state.deadline}
           onChange={(e) => setState({ ...state, deadline: e.target.value })}
+          taskCreatorRole={task?.creator.role}
+          userRole={store.user.role}
         />
         <DialogSelect
           defaultValue={state.priority}
@@ -120,6 +131,8 @@ const DialogTask: React.FC<Props> = ({ type, task }: Props) => {
           value={state.priority}
           onChange={(e) => setState({ ...state, priority: e.target.value })}
           options={priorityList}
+          taskCreatorRole={task?.creator.role}
+          userRole={store.user.role}
         />
         <DialogSelect
           defaultValue={state.status}
@@ -127,30 +140,34 @@ const DialogTask: React.FC<Props> = ({ type, task }: Props) => {
           value={state.status}
           onChange={(e) => setState({ ...state, status: e.target.value })}
           options={statusList}
+          taskCreatorRole={task?.creator.role}
+          userRole="Supervisor"
         />
         <div className="flex flex-col">
           <Label className="description">Ответственный</Label>
-          {store.user.role !== "Supervisor" &&
-          task?.creator.role === "Supervisor" ? (
-            <Label>{shortName(task.responsible.fullName)}</Label>
-          ) : (
-            <select
-              defaultValue={task?.responsible.id}
-              onChange={(e) =>
-                setState({ ...state, responsible: e.target.value })
-              }
-              className="h-10 rounded-md pl-2"
-              style={{ backgroundColor: "#1f1f22", borderWidth: "1px" }}
-            >
-              {store.users.map((user) => {
-                return (
-                  <option key={user.id} value={user.id}>
-                    {shortName(user.fullName)}
-                  </option>
-                );
-              })}
-            </select>
-          )}
+          <select
+            defaultValue={state.responsible}
+            onChange={(e) =>
+              setState({ ...state, responsible: e.target.value })
+            }
+            className="h-10 rounded-md pl-2"
+            style={{ backgroundColor: "#1f1f22", borderWidth: "1px" }}
+            disabled={
+              task?.creator.role === "Supervisor" &&
+              store.user.role === "Manager"
+                ? true
+                : false
+            }
+          >
+            <option value={""}></option>
+            {store.users.map((user) => {
+              return (
+                <option key={user.id} value={user.id}>
+                  {shortName(user.fullName)}
+                </option>
+              );
+            })}
+          </select>
         </div>
         {type === "create" ? (
           <div className="flex justify-center">

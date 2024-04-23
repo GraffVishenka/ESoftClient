@@ -113,9 +113,10 @@ export default class Store {
   async signIn(email: string, password: string) {
     try {
       const response = await AuthService.signIn(email, password);
+      console.log(response)
       localStorage.setItem("token", response.data.accessToken);
       this.setAuth(true);
-      this.setUser(response.data.user);
+      this.setUser(response.data.dto);
     } catch (e: any) {
       toast.error(e.response?.data?.message, {duration: 2000, position:"top-center"});
     }
