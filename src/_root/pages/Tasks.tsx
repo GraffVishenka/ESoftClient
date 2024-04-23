@@ -8,11 +8,10 @@ import {
   TableRow,
 } from "../../components/ui/table";
 import { Context } from "../..";
-import TaskDialog from "../../components/shared/TaskDialog";
 import Loader from "../../components/shared/Loader";
 import { observer } from "mobx-react-lite";
-import NewTaskDialog from "../../components/shared/NewTaskDialog";
 import { shortName } from "../../lib/utils";
+import DialogTask from "../../components/shared/DialogTask";
 
 const Tasks = () => {
   const { store } = useContext(Context);
@@ -54,13 +53,11 @@ const Tasks = () => {
               );
             })}
           </select>
-          <div>
-            <NewTaskDialog users={store.users} />
-          </div>
+          <DialogTask type="create" />
         </div>
       ) : (
         <div className="float-right mb-10">
-          <NewTaskDialog users={store.users} />
+          <DialogTask type="create" />
         </div>
       )}
       <Table className="realative">
@@ -104,7 +101,7 @@ const Tasks = () => {
                     <TableCell>{task.responsible.fullName}</TableCell>
                     <TableCell>{task.status}</TableCell>
                     <TableCell>
-                      <TaskDialog task={task} users={store.users} />
+                      <DialogTask type="update" task={task}/>
                     </TableCell>
                   </TableRow>
                 );

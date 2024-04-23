@@ -1,2 +1,3 @@
-export const statusList = ["","К выполнению","Выполняется", "Выполнена", "Отменена"]
-export const priorityList = ["","Низкий","Средний", "Высокий"]
+export const statusList = ["К выполнению","Выполняется", "Выполнена", "Отменена"]
+export const priorityList = ["Низкий","Средний", "Высокий"]
+export const Empty = {};
